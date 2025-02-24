@@ -4,19 +4,23 @@ from .models import CustomUser
 
 # User Registration Form
 class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField()
+    full_name = forms.CharField(max_length=255)
+
     class Meta:
         model = CustomUser
         fields = [
-            'email', 'username', 'password1', 'password2',
-            'full_name', 'phone_number', 'profile_picture', 'role',
+            'full_name', 'username', 'email',
+            'phone_number','password1', 'password2',
         ]
 
 # User Login Form
 class UserLoginForm(AuthenticationForm):
-    username = forms.EmailField(
-        widget=forms.EmailInput(attrs={'autofocus':True}),
-        label="Email"
-    )
+    # email = forms.EmailField(
+    #     widget=forms.EmailInput(attrs={'autofocus':True}),
+    #     label="Email"
+    # )
+    password = forms.CharField(widget=forms.PasswordInput)
 
 # User Update Form (Optional)
 class UserUpdateForm(forms.ModelForm):
@@ -24,7 +28,7 @@ class UserUpdateForm(forms.ModelForm):
         model = CustomUser
         fields = [
             'email', 'username','full_name', 
-            'phone_number', 'profile_picture', 'role'
+            'phone_number', 'role'
         ]
         widgets = {
             'email': forms.EmailInput(attrs={'readonly': 'readonly'}),

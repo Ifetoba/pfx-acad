@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+from django.conf import settings
 from enum import Enum
 
 # Role Enum and ChoicesS
@@ -40,16 +41,31 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     full_name = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default=RoleENum.STUDENT.name)
+    
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username , full_name']
+
+    def is_admin(self):
+        return self.role == RoleENum.ADMIN
+    
+    def is_instructor(self):
+        return self.role == RoleENum.INSTRUCTOR
 
     def __str__(self):
-        return self.username
+        return self.email
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
+    bio = models.TextField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    experience_level = models.CharField(max_length=50, blank=True, null=True) # Beginner, Intermediate, Advanced
+
+    def __str__(self):
+        return f"{self.user.email}'s Profile"
