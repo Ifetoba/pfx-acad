@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.utils.timezone import now
 from rest_framework import generics, permissions
-from users.models import CustomUser
+from users.models import CustomUser, UserProfile
 from courses.models import (Course, 
      CourseEnrollment, 
     Order, 
@@ -12,6 +12,7 @@ from courses.models import (Course,
     WebinarRegistration,
 )
 from .serializers import (UserSerializer, 
+                          UserProfileSerializer,
                           CourseSerializer, 
                           EnrollmentSerializer, 
                           LessonSerializer,
@@ -29,6 +30,14 @@ class UserProfileAPIView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+class UserProfileDetailAPIView(generics.RetrieveUpdateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile
 
 class CourseListAPIView(generics.ListAPIView):
     queryset = Course.objects.all()

@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from .models import UserProfile
 from .decorators import admin_required, instructor_required
 from .forms import UserRegistrationForm, UserLoginForm, UserUpdateForm
@@ -13,36 +16,40 @@ def register(request):
         if form.is_valid():
             user = form.save()
             UserProfile.objects.create(user=user) # Create an empty profile for new users
+            messages.success(request=request, message='Registration successful! Welcome to PronixFX Academy.')
             login(request, user)
             return redirect('users:profile')
     else:
         form = UserRegistrationForm()
     return render(request, "users/register.html", {"form": form})
 
-def login(request):
+def signin(request):
     if request.method == 'POST':
-        form = UserLoginForm(request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request=request, email=email, password=password)
-            if user:
-                login(request, user)
-                return redirect('users:profile')
+            user = form.get_user()
+            login(request, user)
+            messages.success(request=request, message='You have successfully logged in!')
+            return redirect('users:profile')
+            # email = form.cleaned_data['email']
+            # password = form.cleaned_data['password']
+            # user = authenticate(request=request, email=email, password=password)
+            # if user:
+            #     login(request, user)
+            #     return redirect('users:profile')
     else:
         form = UserLoginForm()
     return render(request, "users/login.html", {"form":form})
 
 @login_required
-def logout(request):
-    logout(request=request)
-    return redirect("users:signout")
-
-@login_required
 def profile(request):
     return render(request, "users/profile.html", {"profile": request.user.profile})
 
-
+@login_required
+def signout(request):
+    logout(request=request)
+    messages.error(request=request, message='You have successfully logged Out!')
+    return redirect("users:signin")
 
 @login_required
 @admin_required

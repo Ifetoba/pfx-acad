@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     UserProfileAPIView, 
+    UserProfileDetailAPIView,
     CourseListAPIView,
     CourseDetailAPIView,
     EnrollCourseAPIView,
@@ -14,11 +15,12 @@ from .views import (
 urlpatterns = [
     # User API
     path('profile/', UserProfileAPIView.as_view(), name='api-profile'),
+    path('profile/detail/', UserProfileDetailAPIView.as_view(), name='api-profile-detail'),
     
     # Course APIs
     path('courses/', CourseListAPIView.as_view(), name='api-course-list'),
     path('courses/<int:pk>', CourseDetailAPIView.as_view(), name='api-course-detail'),
-    path('courses/enroll', UserProfileAPIView.as_view(), name='api-enroll-course'),
+    path('courses/enroll', EnrollCourseAPIView.as_view(), name='api-enroll-course'),
     path('course/<int:course_id>/progress/', CourseProgressAPIView.as_view(), name='api-course-progress'),
     
     # Payment APIs

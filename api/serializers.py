@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import CustomUser
+from users.models import CustomUser, UserProfile
 from courses.models import (Course, 
      CourseEnrollment, 
     Order, 
@@ -16,6 +16,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ["id", "email", "full_name", "role", "date_joined"]
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ["bio", "profile_picture", "experience_level"]
+
 # Course Serializer
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,11 +33,6 @@ class EnrollmentSerializer(serializers.ModelSerializer):
         model = CourseEnrollment
         fields = ["user", "course", "enrolled_at"]
 
-# Payment Serializer
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ["user", "course", "amount", "is_paid"]
 
 # Lesson Serializer
 class LessonSerializer(serializers.ModelSerializer):
@@ -53,6 +53,12 @@ class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Certificate
         fields = ["user", "course", "issued_at", "certificate_id_four"]
+
+# Payment Serializer
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ["user", "course", "amount", "is_paid"]
 
 # Webinar Serializer
 class WebinarSerializer(serializers.ModelSerializer):

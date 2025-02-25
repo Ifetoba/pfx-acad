@@ -16,11 +16,19 @@ class UserRegistrationForm(UserCreationForm):
 
 # User Login Form
 class UserLoginForm(AuthenticationForm):
-    # email = forms.EmailField(
-    #     widget=forms.EmailInput(attrs={'autofocus':True}),
-    #     label="Email"
-    # )
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'autofocus':True,
+            'class': 'form-md-control',
+            'placeholder': 'Enter your email'}),
+        label="Email"
+    )
+    # password = forms.CharField(
+    #     widget=forms.PasswordInput(attrs={
+    #       'autofocus':True,
+    #         'class': 'form-md-control',
+    #         'placeholder': 'Enter your password'  
+    #     }))
 
 # User Update Form (Optional)
 class UserUpdateForm(forms.ModelForm):

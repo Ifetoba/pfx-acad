@@ -19,7 +19,7 @@ class CourseLevel(Enum):
 # Create your models here.
 class Course(models.Model):
     title = models.CharField(max_length=150)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     level = models.CharField(max_length=20, choices=CourseLevel.choices)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -30,7 +30,7 @@ class Course(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
-        self.is_free = self.price == 0.00
+        self.is_course_free = self.price == 0.00
         super().save(*args, **kwargs)
 
     def __str__(self):

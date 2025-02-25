@@ -12,7 +12,7 @@
               <a class="nav-link top-nav-text" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link top-nav-text" href="#">Programs</a>
+              <a class="nav-link top-nav-text" href="{% url 'courses:course-list' %}">Programs</a>
             </li>
             <li class="nav-item">
               <a class="nav-link top-nav-text" href="#">About</a>
@@ -29,7 +29,7 @@
                 <a class="nav-link top-nav-text" href='{% url "users:signup" %}'>Register</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link top-nav-text" href="{% url 'users:signup' %}">LogIn</a>
+                <a class="nav-link top-nav-text" href="{% url 'users:signin' %}">LogIn</a>
               </li>
             {% endif %}
         </ul>
