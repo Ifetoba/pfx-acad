@@ -3,7 +3,9 @@
 {% block title %} Course Enroll {% endblock %}
 
 {% block content %}
-<h2>Enrollment Success</h2>
-<p>{{ message }}</p>
-<a href="{% url 'courses:course-list' %}">Back to Courses</a>
+<div class="container my-5 p-3">
+    <h2>Enrollment Success</h2>
+    <p>{{ message }}</p>
+    <a href="{% url 'courses:course-list' %}">Back to Courses</a>
+</div>
 {% endblock %}

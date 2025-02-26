@@ -9,6 +9,8 @@ pillow = "*"
 django-debug-toolbar = "*"
 environs = "*"
 djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+django-anymail = "*"
 
 [dev-packages]
 

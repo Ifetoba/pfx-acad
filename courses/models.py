@@ -7,21 +7,17 @@ import uuid
 
 USER = settings.AUTH_USER_MODEL
 
-class CourseLevel(Enum):
-    BEGINNER = 'Beginner'
-    INTERMEDIATE = 'Intermediate'
-    ADVANCED = 'Advanced'
-
-    @classmethod
-    def choices(cls):
-         return [(level.name , level.value) for level in cls]
+class CourseLevel(models.TextChoices):
+    BEGINNER = "beginner", "Beginner"
+    INTERMEDIATE = "intermediate", "Intermediate"
+    ADVANCED = "advanced", "Advanced"
 
 # Create your models here.
 class Course(models.Model):
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
-    level = models.CharField(max_length=20, choices=CourseLevel.choices)
+    level = models.CharField(max_length=20, choices=CourseLevel.choices, default=CourseLevel.BEGINNER)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     is_course_free = models.BooleanField(default=False)
     views = models.PositiveIntegerField(default=0) # Track course popularity

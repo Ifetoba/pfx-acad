@@ -11,7 +11,10 @@ from .models import (
 )
 
 # Register your models here.
-admin.site.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+
+admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson)
 admin.site.register(CourseEnrollment)
 admin.site.register(CourseProgress)

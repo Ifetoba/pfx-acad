@@ -46,7 +46,7 @@ class CourseProgressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CourseProgress
-        fields = ["course_user", "user_course", "completed_lessons", "course_progress"]
+        fields = ["user", "course", "completed_lessons", "progress"]
 
 # Certificate Serializer
 class CertificateSerializer(serializers.ModelSerializer):

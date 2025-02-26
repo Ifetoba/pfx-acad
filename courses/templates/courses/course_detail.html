@@ -3,9 +3,37 @@
 {% block title %} Courses Detail {% endblock %}
 
 {% block content %}
-<h2>{{ course.title }}</h2>
-<p>{{ course.description }}</p>
-<p>Level: {{ course.level }}</p>
-<p>Price: {% if course.is_free %}Free{% else %}£{{ course.price }}{% endif %}</p>
-<a href="{% url 'courses:enroll-course' course.id %}">Enroll Now</a>
+<div class="container my-5 p-5">
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+    <p>Level: {{ course.level }}</p>
+    <p>Price: {% if course.is_free %}Free{% else %}£{{ course.price }}{% endif %}</p>
+
+    <div class="progress mt-3">
+        <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+            {{ progress }}% Complete
+        </div>
+    </div>
+
+    <div class="my-2">
+        <ul class="list-group mt-2">
+            {% for lesson in lessons %}
+                <li class="list-group-item">
+                    {{ lesson.title }}
+                    {% if lesson.id in completed_lessons %}
+                        <span class="badge bg-success">Completed</span>
+                    {% else %}
+                        <div class="mx-auto">
+                            <a href="{% url 'courses:complete-lesson' course.id lesson.id %}" class="btn btn-danger btn-sm ms-auto">
+                                Mark as Complete
+                            </a>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a href="{% url 'courses:enroll-course' course.id %}">Enroll Now</a>
+</div>
 {% endblock %}

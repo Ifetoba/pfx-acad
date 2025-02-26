@@ -3,13 +3,19 @@
 {% block title %} Courses {% endblock %}
 
 {% block content %}
+<div class="container my-3 p-4">
     <h2>Available Courses</h2>
-    <ul>
-        {% for course in courses %}
-        <li>
-            <a href="{% url 'courses:course-detail' course.id %}">{{ course.title }}</a>
-            - Level: {{ course.level }} - {% if course.is_free %} Free {% else %}£{{ course.price }}{% endif %}
-        </li>
-        {% endfor %}
-    </ul>
+    
+    <div>
+        <ul>
+            {% for course in courses %}
+            <li>
+                <a href="{% url 'courses:course-detail' course.id %}">{{ course.title }}</a>
+                - Level: {{ course.level }} - {% if course.is_free %} Free {% else %}£{{ course.price }}{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
 {% endblock %}

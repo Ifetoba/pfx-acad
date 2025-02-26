@@ -1,9 +1,12 @@
 import uuid
+from django.core.mail import send_mail
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.utils.timezone import now
 from django.views.generic import ListView, DetailView
+from users.models import CustomUser
 from .models import (
     Course,
     Lesson,
@@ -22,6 +25,21 @@ class CourseListView(ListView):
 class CourseDetailView(DetailView):
     model = Course
     template_name = "courses/course_detail.html"
+
+    def get_context_data(self, **kwargs) -> dict[str, any]:
+        context = super().get_context_data(**kwargs)
+        context["courses"] = Course.objects.all()
+        context["lessons"] = Lesson.objects.all()
+        return context
+    
+def enroll_user_in_course(user, course_id):
+    course = Course.objects.get(id=course_id)
+    enrollment, created = CourseEnrollment.objects.get_or_create(user=user, course=course)
+
+    if created:
+        subject = f"Enrollment Confirmation - {course.title}"
+        message = f"Hi {user.full_name},\n\nYou have successfully enrolled in {course.title}!"
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])    
 
 @login_required
 def enroll_course(request, course_id):
