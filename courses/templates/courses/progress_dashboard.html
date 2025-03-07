@@ -1,0 +1,131 @@
+{% extends 'courses/base_course.html' %}
+
+{% block title %}My Learning Dashboard{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4 text-center">My Learning Dashboard</h2>
+
+    <!-- Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Enrolled Courses</h5>
+                    <p class="card-text display-6">{{ enrollments.count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Completed Courses</h5>
+                    <p class="card-text display-6">{{ completed_courses.count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">In Progress</h5>
+                    <p class="card-text display-6">{{ in_progress_courses.count }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Certificates Earned</h5>
+                    <p class="card-text display-6">{{ certificates.count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Courses -->
+    <div class="card mb-4">
+        <div class="card-header text-center">
+            <h4 class="mb-0">Active Courses</h4>
+        </div>
+        <div class="card-body">
+            {% for enrollment in active_enrollments %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        {% if enrollment.course.thumbnail %}
+                            <img src="{{ enrollment.course.thumbnail.url }}" 
+                                 class="img-fluid rounded-start" 
+                                 alt="{{ enrollment.course.title }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ enrollment.course.title }}</h5>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Enrolled: {{ enrollment.enrolled_at|date:"M d, Y" }}
+                                </small>
+                            </p>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {{ enrollment.progress }}%;"
+                                     aria-valuenow="{{ enrollment.progress }}" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    {{ enrollment.progress }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex align-items-center justify-content-center">
+                        <a href="{{ enrollment.course.get_absolute_url }}" 
+                           class="btn btn-primary">Continue Learning</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-4">
+                <p>You haven't enrolled in any courses yet.</p>
+                <a href="{% url 'courses:course-list' %}" class="btn btn-primary">
+                    Browse Courses
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Certificates -->
+    <div class="card">
+        <div class="card-header text-center">
+            <h4 class="mb-0">My Certificates</h4>
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for certificate in certificates %}
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ certificate.course.title }}</h5>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Issued: {{ certificate.issued_at|date:"M d, Y" }}
+                                </small>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ certificate.get_absolute_url }}" 
+                               class="btn btn-outline-primary btn-sm">
+                                View Certificate
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-4">
+                    <p>Complete courses to earn certificates!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

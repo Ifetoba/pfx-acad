@@ -11,6 +11,8 @@ environs = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 django-anymail = "*"
+drf-yasg = "*"
+stripe = "*"
 
 [dev-packages]
 

@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 from django.conf import settings
@@ -41,6 +42,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50, unique=True)
     full_name = models.CharField(max_length=100, blank=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -51,19 +53,28 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username , full_name']
+    REQUIRED_FIELDS = ['username']
 
     def is_admin(self):
         return self.role == RoleENum.ADMIN
     
     def is_instructor(self):
         return self.role == RoleENum.INSTRUCTOR
+    
+    def get_full_name(self):
+        return self.full_name
+    
+    def get_short_name(self):
+        """Returns the first name or full name is no spaces exist."""
+        return self.full_name.split(" ")[0] if " " in self.full_name else self.full_name
 
     def __str__(self):
         return self.email
     
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, unique=True, related_name="profile")
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     experience_level = models.CharField(max_length=50, blank=True, null=True) # Beginner, Intermediate, Advanced

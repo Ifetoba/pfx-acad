@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load course_tags %}
+
+{% block title %}
+    {% if course %}{{ course.title }} - {% endif %}PFX Programs
+{% endblock title %}
+
+{% block custom_cssfiles %}
+    {{ block.super }}  {# Keep any CSS from base.html #}
+    <link rel="stylesheet" href="{% static 'courses/css/course.css' %}">
+    {% block course_css %}{% endblock %}  {# For page-specific CSS #}
+{% endblock custom_cssfiles %}
+
+{% block content %}
+
+    {# Course navigation breadcrumb #}
+        {% block course_nav %}
+            {% if course or module or lesson %}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'home' %}" class="text-decoration-none">
+                                <i class="bi bi-house-door"></i> Home
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'courses:course-list' %}" class="text-decoration-none">Programs</a>
+                        </li>
+                        {% if course %}
+                            <li class="breadcrumb-item {% if not module and not lesson %}active{% endif %}">
+                                {% if module or lesson %}
+                                    <a href="{{ course.get_absolute_url }}" class="text-decoration-none">{{ course.title }}</a>
+                                {% else %}
+                                    {{ course.title }}
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                        {% if module %}
+                            <li class="breadcrumb-item {% if not lesson %}active{% endif %}">
+                                {% if lesson %}
+                                    <a href="{{ module.get_absolute_url }}" class="text-decoration-none">{{ module.title }}</a>
+                                {% else %}
+                                    {{ module.title }}
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                        {% if lesson %}
+                            <li class="breadcrumb-item active">{{ lesson.title }}</li>
+                        {% endif %}
+                    </ol>
+                </nav>
+            {% endif %}
+        {% endblock course_nav %}
+
+        {# Messages section - for enrollment confirmations, completions, etc. #}
+        {% if messages %}
+            <div class="messages mb-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {# Main course content area #}
+        {% block course_content %}
+        {% endblock course_content %}
+    
+{% endblock content %}
+
+{% block custom_script %}
+    {{ block.super }}  {# Keep any JS from base.html #}
+    
+    {# Course-specific JavaScript #}
+    <script src="{% static 'courses/js/course.js' %}"></script>
+    
+    {# Additional scripts for course functionality #}
+    <script>
+        // Common course functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            // Handle lesson completion buttons
+            const completeLessonButtons = document.querySelectorAll('.complete-lesson-btn');
+            if (completeLessonButtons.length > 0) {
+                completeLessonButtons.forEach(button => {
+                    button.addEventListener('click', async function(e) {
+                        e.preventDefault();
+                        // Lesson completion logic
+                    });
+                });
+            }
+        });
+    </script>
+
+    {# Page-specific JavaScript #}
+    {% block course_js %}{% endblock %}
+{% endblock custom_script %}

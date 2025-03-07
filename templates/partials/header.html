@@ -11,13 +11,19 @@
             <li class="nav-item">
               <a class="nav-link top-nav-text" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link top-nav-text" href="{% url 'courses:course-list' %}">Programs</a>
             </li>
+            
             <li class="nav-item">
               <a class="nav-link top-nav-text" href="#">About</a>
             </li>
             {% if request.user.is_authenticated %}
+              <li class="nav-item">
+                <a href="{% url 'users:profile' %}" class="nav-link top-nav-text">Profile</a>
+              </li>
+
               <li class="nav-item">
                 <form class="nav-link" action="{% url 'users:signout' %}" method="post">
                   {% csrf_token %}
@@ -28,6 +34,7 @@
               <li class="nav-item">
                 <a class="nav-link top-nav-text" href='{% url "users:signup" %}'>Register</a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link top-nav-text" href="{% url 'users:signin' %}">LogIn</a>
               </li>

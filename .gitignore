@@ -19,3 +19,7 @@ __pycache__
 staticfiles/
 
 static/
+
+bkupdata/
+
+db_backup.json

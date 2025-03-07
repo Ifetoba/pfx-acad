@@ -1,0 +1,71 @@
+<!-- templates/courses/lesson_types/trading_practice_lesson.html -->
+<div class="lesson-content trading-practice-lesson">
+    <div class="practice-instructions mb-4">
+        {{ lesson.practice_instructions|safe }}
+    </div>
+    
+    <div class="trading-simulator">
+        <div class="chart-container mb-4">
+            <div class="tradingview-widget-container">
+                <div id="tradingChart"></div>
+            </div>
+        </div>
+        
+        <div class="trading-controls">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Entry Price</label>
+                            <input type="number" class="form-control" id="entryPrice" step="0.00001">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Stop Loss</label>
+                            <input type="number" class="form-control" id="stopLoss" step="0.00001">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Take Profit</label>
+                            <input type="number" class="form-control" id="takeProfit" step="0.00001">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Position Size</label>
+                            <input type="number" class="form-control" id="positionSize" step="0.01">
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <button class="btn btn-success w-100" id="buyButton">
+                                <i class="bi bi-arrow-up-circle"></i> Buy
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-danger w-100" id="sellButton">
+                                <i class="bi bi-arrow-down-circle"></i> Sell
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="trade-history mt-4">
+            <h4>Trade History</h4>
+            <div class="table-responsive">
+                <table class="table" id="tradeHistory">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Entry</th>
+                            <th>SL</th>
+                            <th>TP</th>
+                            <th>Size</th>
+                            <th>Result</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

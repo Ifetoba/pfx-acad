@@ -7,7 +7,9 @@ from .models import (
     Certificate,
     Webinar,
     WebinarRegistration,
-    Order
+    Order, 
+    Resource,
+    Module,
 )
 
 # Register your models here.
@@ -22,3 +24,5 @@ admin.site.register(Certificate)
 admin.site.register(Webinar)
 admin.site.register(WebinarRegistration)
 admin.site.register(Order)
+admin.site.register(Module)
+admin.site.register(Resource)

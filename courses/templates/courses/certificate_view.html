@@ -1,0 +1,74 @@
+{% extends 'courses/base_course.html' %}
+
+{% block title %}Course Certificate - {{ certificate.course.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow">
+                <div class="card-body p-5">
+                    <!-- Certificate Header -->
+                    <div class="text-center mb-5">
+                        <h1 class="display-4 mb-4">Certificate of Completion</h1>
+                        <hr class="my-4" style="width: 50%; margin: auto;">
+                    </div>
+
+                    <!-- Certificate Content -->
+                    <div class="text-center mb-5">
+                        <p class="lead">This is to certify that</p>
+                        <h2 class="display-5 fw-bold text-primary mb-4">{{ certificate.user.get_full_name }}</h2>
+                        <p class="lead">has successfully completed the course</p>
+                        <h3 class="display-6 mb-4">{{ certificate.course.title }}</h3>
+                        <p class="mb-4">on {{ certificate.issued_at|date:"F d, Y" }}</p>
+                    </div>
+
+                    <!-- Certificate Details -->
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <p class="mb-1"><strong>Certificate ID:</strong></p>
+                            <p class="text-muted">{{ certificate.certificate_id_four }}</p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p class="mb-1"><strong>Issued Date:</strong></p>
+                            <p class="text-muted">{{ certificate.issued_at|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="text-center mt-5">
+                        <button class="btn btn-primary me-2" onclick="window.print()">
+                            <i class="bi bi-printer"></i> Print Certificate
+                        </button>
+                        <a href="#" class="btn btn-outline-primary" id="downloadPDF">
+                            <i class="bi bi-download"></i> Download PDF
+                        </a>
+                    </div>
+
+                    <!-- Verification Link -->
+                    <div class="text-center mt-4">
+                        <small class="text-muted">
+                            Verify this certificate at:<br>
+                            {{ request.scheme }}://{{ request.get_host }}{% url 'courses:verify-certificate' certificate.certificate_id_four %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_style %}
+<style>
+@media print {
+    .btn, .navbar, footer {
+        display: none !important;
+    }
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+</style>
+{% endblock %}

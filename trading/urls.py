@@ -25,9 +25,11 @@ urlpatterns = [
     path('', views.home_page , name="home"),
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
-    path('users/', include('users.urls')),
+    path('user/', include('users.urls')),
     path('courses/', include('courses.urls')),
-    path('auths/', include('authen.urls')),
+    path('auth/', include('authen.urls')),
+    path('legal/', include('legal.urls')),
+    path('payment/', include('payments.urls'))
 ] # + debug_toolbar_urls()
 
 if 'debug_toolbar' in settings.INSTALLED_APPS:

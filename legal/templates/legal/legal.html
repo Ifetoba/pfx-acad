@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+<div class="container p-5 m-3">
+    <div class="my-2">
+        <a href="{% url 'legal:privacy-policy' %}" class="btn btn-sm btn-dark">Privacy Policy</a>
+    </div>
+    
+    <div class="my-2">
+        <a href="{% url 'legal:terms-of-service' %}" class="btn btn-sm btn-dark">Terms of Service</a>
+    </div>
+</div>
+
+{% endblock %}

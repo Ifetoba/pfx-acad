@@ -44,6 +44,9 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'rest_framework_simplejwt',
+    'drf_yasg',
+    'anymail',
 ]
 
 LOCAL_APPS =[
@@ -51,6 +54,8 @@ LOCAL_APPS =[
     'courses.apps.CoursesConfig',
     'api.apps.ApiConfig',
     'authen.apps.AuthenConfig',
+    'legal.apps.LegalConfig',
+    'payments.apps.PaymentsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -63,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'courses.middleware.EnrollmentRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'trading.urls'
@@ -78,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'courses.context_processors.user_courses',
             ],
         },
     },
@@ -119,6 +126,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+}
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": "your-mailgun-api-key",
+    "MAILGUN_SENDER_DOMAIN": "yourdomain.com",
 }
 
 # CACHES = {
@@ -165,3 +177,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("EMAIL_ADDRESS","")
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD","")
 DEFAULT_FROM_EMAIL = "PronixFX Academy <noreply@yourdomain.com>"
+EMAIL_FAIL_SILENTLY = False # Ensures errors are logged
+
+STRIPE_TEST_SECRET_KEY = env("STRIPE_TEST_SECRET_KEY")
+STRIPE_TEST_PUBLIC_KEY = env("STRIPE_TEST_PUBLISHABLE_KEY")

@@ -6,11 +6,21 @@
     <div class="container mt-5">
         <h2>Welcome to {{profile.user.full_name}}'s Profile</h2>
         <p>Email: {{ profile.user.email }}</p>
+        <p>First Name: {{ profile.first_name }}</p>
+        <p>Last Name: {{ profile.last_name }}</p>
         <p>Role: {{ profile.user.get_role_display }}</p>
         <p>Bio: {{ profile.bio }}</p>
         <p>Experience: {{ profile.experience_Level }}</p>
-        {% if profile.profile_picture %}
-            <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" width="100">
-        {% endif %}
+        
+        <div>
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" class="py-2 my-2" alt="Profile Picture" width="150">
+            {% endif %}
+        </div>
+
+        <div>
+            <a href="{% url 'users:edit-profile' %}" class="btn btn-dark my-2">Edit Profile</a>
+        </div>
+
     </div>
 {% endblock %}

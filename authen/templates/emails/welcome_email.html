@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Welcome, {{ user.full_name }}</h2> 
+    <p>Thank you for joining PronixFX Academy. Start learning today!</p>
+    <p><a href="{{ frontend_url }}">Go to Dashboard</a></p>
+</div>
+{% endblock %}
+

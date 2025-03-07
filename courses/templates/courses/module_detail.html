@@ -1,0 +1,222 @@
+{% extends 'courses/base_course.html' %}
+{% load static %}
+{% load course_tags %}
+
+{% block course_content %}
+<!-- Module Header -->
+<section class="bg-dark text-light p-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="mb-3">{{ module.title }}</h1>
+                <p class="lead">{{ module.description }}</p>
+                
+                <!-- Module Progress -->
+                {% if is_enrolled %}
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar bg-{{ module_progress|progress_color }}" 
+                             role="progressbar" 
+                             style="width: {{ module_progress }}%"
+                             aria-valuenow="{{ module_progress }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                            {{ module_progress }}% Complete
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card bg-secondary">
+                    <div class="card-body">
+                        <h4 class="text-center mb-3">Module Progress</h4>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Completed Lessons:</span>
+                            <span>{{ completed_lessons|length }}/{{ module.lessons.count }}</span>
+                        </div>
+                        {% if progress.last_accessed_lesson and progress.last_accessed_lesson.module == module %}
+                            <a href="{{ progress.last_accessed_lesson.get_absolute_url }}" 
+                               class="btn btn-success w-100">
+                                Continue Learning
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Module Content -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Lessons List -->
+                <div class="card">
+                    <div class="card-header bg-dark text-light">
+                        <h3 class="mb-0">Module Lessons</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for lesson in module.lessons.all %}
+                            <div class="list-group-item lesson-item {% if lesson in completed_lessons %}completed{% endif %}">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        {% if lesson in completed_lessons %}
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                        {% else %}
+                                            <i class="bi bi-circle me-2"></i>
+                                        {% endif %}
+                                        
+                                        <div>
+                                            <h5 class="mb-1">
+                                                <a href="{{ lesson.get_absolute_url }}" 
+                                                   class="text-decoration-none">
+                                                    {{ lesson.title }}
+                                                </a>
+                                            </h5>
+                                            {% if lesson.duration %}
+                                                <small class="text-muted">
+                                                    <i class="bi bi-clock me-1"></i>
+                                                    {{ lesson.duration|format_duration }}
+                                                </small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    
+                                    {% if lesson in completed_lessons %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif lesson == progress.last_accessed_lesson %}
+                                        <span class="badge bg-primary">In Progress</span>
+                                    {% else %}
+                                        <a href="{{ lesson.get_absolute_url }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            Start Lesson
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="text-center py-4">
+                                <p class="text-muted mb-0">No lessons available in this module yet.</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module Resources (if any) -->
+                {% if module.resources.exists %}
+                <div class="card mt-4">
+                    <div class="card-header bg-dark text-light">
+                        <h3 class="mb-0">Module Resources</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for resource in module.resources.all %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <i class="bi bi-file-earmark-text me-2"></i>
+                                        {{ resource.title }}
+                                    </div>
+                                    <a href="{{ resource.file.url }}" 
+                                       class="btn btn-sm btn-outline-primary"
+                                       download>
+                                        Download
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Course Progress -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-light">
+                        <h4 class="mb-0">Course Progress</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar bg-success" 
+                                 role="progressbar" 
+                                 style="width: {{ progress.progress }}%"
+                                 aria-valuenow="{{ progress.progress }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ progress.progress }}%
+                            </div>
+                        </div>
+                        <p class="mb-0">
+                            <strong>Overall Progress:</strong> 
+                            {{ progress.completed_lessons.count }}/{{ course.total_lessons }} lessons completed
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Module Navigation -->
+                <div class="card">
+                    <div class="card-header bg-dark text-light">
+                        <h4 class="mb-0">Module Navigation</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group">
+                            {% for mod in course.modules.all %}
+                            <a href="{{ mod.get_absolute_url }}" 
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+                               {% if mod == module %}active{% endif %}">
+                                {{ mod.title }}
+                                {% with mod_progress=mod|module_progress:request.user %}
+                                <span class="badge bg-{{ mod_progress|progress_color }} rounded-pill">
+                                    {{ mod_progress }}%
+                                </span>
+                                {% endwith %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Module Navigation Buttons -->
+<section class="bg-light pb-5">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            {% if previous_module %}
+                <a href="{{ previous_module.get_absolute_url }}" 
+                   class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left"></i> Previous Module
+                </a>
+            {% else %}
+                <div></div>
+            {% endif %}
+
+            {% if next_module %}
+                <a href="{{ next_module.get_absolute_url }}" 
+                   class="btn btn-outline-primary">
+                    Next Module <i class="bi bi-arrow-right"></i>
+                </a>
+            {% else %}
+                <div></div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block course_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add any module-specific JavaScript here
+});
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+<!-- templates/courses/lesson_types/video_lesson.html -->
+<div class="lesson-content video-lesson">
+    <div class="ratio ratio-16x9 mb-4">
+        {% if 'youtube.com' in lesson.video_url or 'youtu.be' in lesson.video_url %}
+            <iframe src="{{ lesson.video_url|youtube_embed_url }}" 
+                    allowfullscreen 
+                    class="rounded">
+            </iframe>
+        {% else %}
+            <video controls class="rounded" id="lessonVideo">
+                <source src="{{ lesson.video_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        {% endif %}
+    </div>
+    <div class="video-content mt-4">
+        {{ lesson.content|safe }}
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Terms</h1>
+    <h2>{{ terms.title }}</h2>
+    <p>{{ terms.content|safe }}</p>
+</div>
+
+{% endblock %}
