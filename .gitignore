@@ -23,3 +23,5 @@ static/
 bkupdata/
 
 db_backup.json
+
+migrations
