@@ -22,6 +22,7 @@ env.read_env(BASE_DIR / ".env")   # Read .env file
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -181,3 +182,4 @@ EMAIL_FAIL_SILENTLY = False # Ensures errors are logged
 
 STRIPE_TEST_SECRET_KEY = env("STRIPE_TEST_SECRET_KEY")
 STRIPE_TEST_PUBLIC_KEY = env("STRIPE_TEST_PUBLISHABLE_KEY")
+
