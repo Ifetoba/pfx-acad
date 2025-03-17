@@ -2,15 +2,18 @@
     <div class="container">
         <div class="row">
             <!-- About Section -->
-             <div class="col-md-4">
-                <h5>About PronixFX Academy</h5>
-                <p>Master the markets with expert-led forex training. Learn proven strategies and trade with 
-                    confidence
-                </p>
-             </div>
+            <div class="col-md-4">
+                <div>
+                    <h5>About PronixFX Academy</h5>
+                    <p>
+                        Master the markets with expert-led forex training. Learn proven strategies and trade with
+                        confidence
+                    </p>
+                </div>
+            </div>
 
-             <!-- Quick Links -->
-              <div class="col-md-2">
+            <!-- Quick Links -->
+            <div class="col-md-2">
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-light">Home</a></li>
@@ -18,14 +21,14 @@
                     <li><a href="#" class="text-light">About Us</a></li>
                     <li><a href="#" class="text-light">Contact</a></li>
                 </ul>
-              </div>
+            </div>
 
-              <!-- Contact Information -->
-               <div class="col-md">
+            <!-- Contact Information -->
+            <div class="col-md-3">
                 <h5>Contact Us</h5>
                 <p>Email: pronixfx@gmail.com</p>
-                <p>Phone: +44 123456789</p>
-                <p>Location: England, UK</p>
+                <!-- <p>Phone: +44 123456789</p> -->
+                <p>Location: England, United Kingdom</p>
 
                 <!-- Social Media Links -->
                 <div>
@@ -33,11 +36,72 @@
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
-               </div>
+            </div>
+
+            <!--Legal Documents -->
+            <div class="col-md-3">
+                <h5>Policies</h5>
+                <div>
+                    <ul class="list-unstyled text-light">
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Cookie Policy</a></li>
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Privacy Policy</a></li>
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Trademark Policy</a></li>
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Risk Disclosure</a></li>
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Terms of Use</a></li>
+                        <li><a href="{% url 'legal:legal' %}" class="text-light">Terms and Conditions</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="text-center">
+                <h5>Risk Warning & Financial Disclaimer</h5>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <p>
+                        PronixFx Acadmey is an educational platform dedicated to providing forex and financial trading
+                        knowlegde.
+                        We <span><strong>DO NOT</strong></span> offer investment servcies, trading accounts, or
+                        financial management.
+                        We <span><strong>DO NOT</strong></span> collect money from indivduals for trading, investments,
+                        or any financial transactions.
+                        Any third party claiming to represent PronixFX Academy for investment purposes is fraudulent and
+                        should be reported immediately.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        Trading in financial markets, including forex, stocks, and cryptocurrencies, carries significant
+                        risks.
+                        The markets are highly volatile, and traders can experience substanial losses, including the
+                        loss of their
+                        entire investment. Past performance does not guarantee future results, and there is no assurance
+                        of profit.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        We strongly advise all traders to educate themselves thoroughly, manage risk appropriately, and
+                        never trade with money
+                        they cannot afford to lose. PronixFx Academy ptovides educational content only and does not
+                        offer financial advice.
+                        Before engaging in trading, indivudals should consider their financial situation, trading
+                        experience, and risk tolerance.
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p>
+                        For professional investment advice, please consult a licensed financial advisor. Trading
+                        responsibly
+                        and with proper knowlegde is key to long-term success.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!-- Copyright -->
-         <div class="text-center mt-3">
+        <div class="text-center mt-3">
             <p class="mb-0">
                 &copy; 2025 PronixFx Academy. All RIghts Reserved
             </p>

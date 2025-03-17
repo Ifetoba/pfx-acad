@@ -5,12 +5,31 @@
 {% block title %} SignUp {% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2 class="text-center">Register</h2>
+<div class="container my-5 text-sm-center">
+    <h2>Register</h2>
+    <div class="my-2">
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success">Register</button>
+            <div class="container-md">
+                {% for field in form %}
+                <div class="form-label">
+                    {{ field.label_tag }}
+                </div>
+                <div class="form-control">
+                    {{ field }}
+                </div>
+                <div class="text-danger">
+                    {{ field.errors }}
+                </div>
+                {% endfor %}
+            </div>
+            <div class="my-2">
+                <button type="submit" class="btn btn-success">Register</button>
+            </div>
         </form>
     </div>
+    <div>
+        <p>Already Registered?<span class="px-2"><a href="{% url 'users:signin' %}">Sign In Here</a></span></p>
+    </div>
+</div>
 {% endblock %}
